@@ -12,10 +12,11 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var tableView: UITableView!
     
+    let postIdentifier = "post"
     let estimatedRowHeight = 150
     let detailedPostSequeId = "detailedPost"
-    let dataManager = DataManager.instance
-    var posts: [Model]!
+    let dataManager = DataManager.sharedInstance
+    var posts: [Post]!
     
     /// Add refresher to the table
     lazy var refreshControl: UIRefreshControl = {
@@ -31,15 +32,15 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tableView.addSubview(self.refreshControl)
+        tableView.addSubview(self.refreshControl)
         tableView.estimatedRowHeight = CGFloat(estimatedRowHeight)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        dataManager.obtainData { (models) in
-            self.posts = models
+        dataManager.obtainData { (posts) in
+            self.posts = posts
             self.tableView.reloadData()
         }
     }
@@ -55,7 +56,7 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "post") as! PostTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: postIdentifier) as! PostTableViewCell
         cell.congigureCell(with: posts[indexPath.row], parentVC: self)
         
         return cell
@@ -67,10 +68,8 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     /// - Parameter refreshControl
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         
-        print("Models count: \(posts.count)")
-        
-        dataManager.obtainData { (models) in
-            self.posts = models
+        dataManager.obtainData { (posts) in
+            self.posts = posts
             self.tableView.reloadData()
             refreshControl.endRefreshing()
         }
@@ -84,10 +83,11 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == detailedPostSequeId, let post = sender as? Model {
+        if segue.identifier == detailedPostSequeId, let post = sender as? Post {
             
             let destinationController = segue.destination as! DetailedPostViewController
-            // Передача id для тестирования функции searchModel
+            
+            // Передача id для тестирования функции searchPost
             destinationController.postId = post.id
         }
     }

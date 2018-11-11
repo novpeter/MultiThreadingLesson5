@@ -1,5 +1,5 @@
 //
-//  Model.swift
+//  Post.swift
 //  VKClone
 //
 //  Created by Петр on 04/11/2018.
@@ -8,23 +8,33 @@
 
 import Foundation
 
-/// - Parameters:
-///   - groupName: group title
-//    - groupAvatar: group avatar
-//    - postDate: date of news posting
-//    - postText: news text
-//    - postImageLink: attached image
-//    - likesCount: how many likes
-//    - commentsCount: how many comments
-//    - viewsCount: how many watchers
-struct Model {
+// Post model
+struct Post {
+    
+    // Uniq post identifier
     var id: String
+    
+    // Group title
     var groupName: String
+    
+    // Group avatar (picture)
     var groupAvatar: String
+    
+    // Date of news posting
     var postDate: String
+    
+    // News text
     var postText: String
+    
+    // Attached image
     var postImageLink: String
+    
+    // How many likes
     var likesCount: Int
+    
+    // How many comments
     var commentsCount: Int
+    
+    // How many watchers
     var viewsCount: Int
 }

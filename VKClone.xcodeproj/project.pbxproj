@@ -7,11 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B23C1BA218EE013006D0115 /* DataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B23C1B9218EE013006D0115 /* DataProtocol.swift */; };
+		4B23C1BA218EE013006D0115 /* DataManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B23C1B9218EE013006D0115 /* DataManagerProtocol.swift */; };
 		4B23C1BC218EE21A006D0115 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B23C1BB218EE21A006D0115 /* DataManager.swift */; };
-		4B23C1BE218EE2E7006D0115 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B23C1BD218EE2E7006D0115 /* Model.swift */; };
+		4B23C1BE218EE2E7006D0115 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B23C1BD218EE2E7006D0115 /* Post.swift */; };
 		4B23C1C0218EE315006D0115 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B23C1BF218EE315006D0115 /* User.swift */; };
-		4B23C1C2218EE3B8006D0115 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B23C1C1218EE3B8006D0115 /* Extensions.swift */; };
 		4B23C1C4218EF7CD006D0115 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B23C1C3218EF7CD006D0115 /* Generator.swift */; };
 		4B371BD42166520100A965F9 /* UserPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B371BD32166520100A965F9 /* UserPageViewController.swift */; };
 		4B8C5E05216672570028EA03 /* DetailUserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8C5E04216672570028EA03 /* DetailUserInfoViewController.swift */; };
@@ -27,11 +26,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4B23C1B9218EE013006D0115 /* DataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProtocol.swift; sourceTree = "<group>"; };
+		4B23C1B9218EE013006D0115 /* DataManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerProtocol.swift; sourceTree = "<group>"; };
 		4B23C1BB218EE21A006D0115 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		4B23C1BD218EE2E7006D0115 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		4B23C1BD218EE2E7006D0115 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		4B23C1BF218EE315006D0115 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		4B23C1C1218EE3B8006D0115 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4B23C1C3218EF7CD006D0115 /* Generator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 		4B371BD32166520100A965F9 /* UserPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPageViewController.swift; sourceTree = "<group>"; };
 		4B8C5E04216672570028EA03 /* DetailUserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUserInfoViewController.swift; sourceTree = "<group>"; };
@@ -105,11 +103,10 @@
 			isa = PBXGroup;
 			children = (
 				4B23C1BB218EE21A006D0115 /* DataManager.swift */,
-				4B23C1B9218EE013006D0115 /* DataProtocol.swift */,
+				4B23C1B9218EE013006D0115 /* DataManagerProtocol.swift */,
 				4B23C1C3218EF7CD006D0115 /* Generator.swift */,
-				4B23C1BD218EE2E7006D0115 /* Model.swift */,
+				4B23C1BD218EE2E7006D0115 /* Post.swift */,
 				4B23C1BF218EE315006D0115 /* User.swift */,
-				4B23C1C1218EE3B8006D0115 /* Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -201,12 +198,11 @@
 				4BE7264E216A27A50082E301 /* DetailedPostViewController.swift in Sources */,
 				4B8DB7E121654D03002D01CF /* TabBarController.swift in Sources */,
 				4B8DB7DF21654D03002D01CF /* AppDelegate.swift in Sources */,
-				4B23C1BA218EE013006D0115 /* DataProtocol.swift in Sources */,
+				4B23C1BA218EE013006D0115 /* DataManagerProtocol.swift in Sources */,
 				4BDB61212166372800757934 /* PostTableViewCell.swift in Sources */,
 				4BDB61252166379900757934 /* NewsViewController.swift in Sources */,
-				4B23C1C2218EE3B8006D0115 /* Extensions.swift in Sources */,
 				4B23C1C0218EE315006D0115 /* User.swift in Sources */,
-				4B23C1BE218EE2E7006D0115 /* Model.swift in Sources */,
+				4B23C1BE218EE2E7006D0115 /* Post.swift in Sources */,
 				4B8C5E05216672570028EA03 /* DetailUserInfoViewController.swift in Sources */,
 				4B23C1C4218EF7CD006D0115 /* Generator.swift in Sources */,
 			);

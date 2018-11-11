@@ -24,13 +24,13 @@ class DetailedPostViewController: UIViewController {
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var viewsCountLabel: UILabel!
     
-    let dataManager = DataManager.instance
+    let dataManager = DataManager.sharedInstance
     var postId: String!
-    var post: Model!
+    var post: Post!
     
     @IBAction func didShareButtonPressed(_ sender: Any) {
         
-        guard post.postText != "" else { return }
+        guard post.postText.isEmpty else { return }
         let text = post.postText
         let vc = UIActivityViewController(activityItems: [text], applicationActivities: [])
         
@@ -46,7 +46,7 @@ class DetailedPostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        post = dataManager.syncSearchModel(id: postId)
+        post = dataManager.searchPost(by: postId)
         
         congigureDetailedPost()
     }

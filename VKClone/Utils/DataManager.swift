@@ -8,20 +8,23 @@
 
 import Foundation
 
-final class DataManager: DataProtocol {
+// Class that contains methods for working with app data
+final class DataManager: DataManagerProtocol {
 
-    static let instance = DataManager()
-    var models: [Model]
-    var user: User
+    static let sharedInstance = DataManager()
+    
+    var posts: [Post]
+    var currentUser: User
     
     private init() {
-        models = Generator().generateRandomModels()
-        user = Generator().getRandomUser()
+        posts = Generator().generateRandomPosts()
+        currentUser = Generator().getRandomUser()
     }
     
-    func obtainData(completionBlock: @escaping ([Model]) -> Void) {
-        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 2) {
-            completionBlock(self.models)
+    func obtainData(completionBlock: @escaping ([Post]) -> Void) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            completionBlock(self.posts)
         }
     }
     
@@ -52,62 +55,69 @@ final class DataManager: DataProtocol {
     }()
     
     
-    // MARK: - Search model
+    // MARK: - Search post
     
-    func syncSearchModel(id: String) -> Model? {
-        return models.filter{ model in model.id == id}[0]
+    func searchPost(by id: String) -> Post? {
+        let result = posts.filter{ post in post.id == id }
+        
+        if result.count != 0 {
+            return result.first
+        }
+        
+        return nil
     }
     
-    func asyncSearchModel(id: String, completionBlock: @escaping (Model?) -> Void) {
+    func asyncSearchPost(by id: String, completionBlock: @escaping (Post?) -> Void) {
+        
         searchOperationQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
             
-            completionBlock(strongSelf.models.filter{ model in model.id == id}[0])
+            let result = strongSelf.posts.filter{ post in post.id == id }
+            
+            if result.count == 0 {
+                completionBlock(nil)
+            }
+
+            completionBlock(result.first)
         }
     }
     
 
-    // MARK: - Add model
+    // MARK: - Add post
     
-    func syncAddModel(model: Model) {
-        var newModels: [Model] = [model]
-        newModels += models
-        models = newModels
-    }
-    
-    func asyncAddModel(model: Model, completionBlock: @escaping () -> (Bool)) {
-        addOperationQueue.addOperation { [weak self] in
-            guard let strongSelf = self else { return }
-            
-            var newModels: [Model] = [model]
-            newModels += strongSelf.models
-            strongSelf.models = newModels
-            
-            completionBlock()
-        }
-    }
-    
-    
-    // MARK: - Save model
-    
-    func syncSaveModel(model: Model) {
+    func addPost(_ post: Post) {
         
-        let index = models.firstIndex { (oldModel) -> Bool in
-            oldModel.id == model.id
-        }
-        models.insert(model, at: index ?? models.count)
+        var newPosts: [Post] = [post]
+        newPosts += posts
+        posts = newPosts
     }
     
-    func asyncSaveModel(model: Model, completionBlock: @escaping () -> (Bool)) {
-        saveOperationQueue.addOperation { [weak self] in
-            guard let strongSelf = self else { return }
+    func asyncAddPost(_ post: Post, completionBlock: @escaping (Bool) -> Void) {
+        
+        addOperationQueue.addOperation {
             
-            let index = strongSelf.models.firstIndex { (oldModel) -> Bool in
-                oldModel.id == model.id
-            }
-            strongSelf.models.insert(model, at: index ?? strongSelf.models.count)
+            self.addPost(post)
+            completionBlock(true)
+        }
+    }
+    
+    
+    // MARK: - Save post
+    
+    func saveAndUpdatePost(_ post: Post) {
+        
+        let index = posts.firstIndex { (oldPost) -> Bool in
+            oldPost.id == post.id
+        }
+        posts.insert(post, at: index ?? posts.count)
+    }
+    
+    func asyncSaveAndUpdatePost(_ post: Post, completionBlock: @escaping (Bool) -> Void) {
+        
+        saveOperationQueue.addOperation {
             
-            completionBlock()
+            self.saveAndUpdatePost(post)
+            completionBlock(true)
         }
     }
     

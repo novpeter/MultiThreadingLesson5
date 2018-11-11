@@ -19,9 +19,9 @@ class UserPageViewController: UIViewController {
     @IBOutlet weak var detailInfoButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
     
-    var user: User!
+    var currentUser: User!
     
-    let dataManager = DataManager.instance
+    let dataManager = DataManager.sharedInstance
     let detailInfoSegueID = "detailUserInfo"
     let moscowCity = "Москва"
     let cornerRadius = 10
@@ -30,7 +30,7 @@ class UserPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        user = dataManager.user
+        currentUser = dataManager.currentUser
         applyStyles()
     }
     
@@ -43,10 +43,10 @@ class UserPageViewController: UIViewController {
         avatarImageView.clipsToBounds = true
         editButton.layer.cornerRadius = CGFloat(cornerRadius)
         
-        avatarImageView.image = UIImage(named: user!.avatar)!
-        userNameSurnameLabel.text = "\(user?.name ?? "") \(user?.surname ?? "")"
-        accountStatusLabel.text = user?.pageStatus
-        userAgeAndCityLabel.text = "\(user?.age ?? 0) лет, \(user?.city ?? moscowCity)"
+        avatarImageView.image = UIImage(named: currentUser!.avatar)!
+        userNameSurnameLabel.text = "\(currentUser?.name ?? "") \(currentUser?.surname ?? "")"
+        accountStatusLabel.text = currentUser?.pageStatus
+        userAgeAndCityLabel.text = "\(currentUser?.age ?? 0) лет, \(currentUser?.city ?? moscowCity)"
     }
     
     
@@ -62,20 +62,22 @@ class UserPageViewController: UIViewController {
         if segue.identifier == detailInfoSegueID {
             
             if let destinationVC = segue.destination as? DetailUserInfoViewController {
-                destinationVC.currentUser = user
+                destinationVC.currentUser = currentUser
             }
         }
     }
     
-    // MARK: - Add new model (post)
+    // MARK: - Add new post
     
-    @IBAction func addNewModel(_ sender: Any) {
+    @IBAction func addNewPost(_ sender: Any) {
         
-        let newModel = Generator().generateRandomModel()
+        let newPost = Generator().generateRandomPost()
         
-        dataManager.asyncAddModel(model: newModel) { () -> (Bool) in
-                print("New model \(newModel.id) is added")
-                return true
+        dataManager.asyncAddPost(newPost) { (isSuccess)  in
+            
+            if !isSuccess {
+                print("Assync adding failed")
+            }
         }
         
     }
