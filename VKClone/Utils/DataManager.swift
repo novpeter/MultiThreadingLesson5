@@ -15,15 +15,19 @@ final class DataManager: DataManagerProtocol {
     
     var posts: [Post]
     var currentUser: User
+    var delay: Double = 2
     
     private init() {
         posts = Generator().generateRandomPosts()
         currentUser = Generator().getRandomUser()
     }
     
+    /// Returns current posts
+    ///
+    /// - Parameter completionBlock: block for returning posts
     func obtainData(completionBlock: @escaping ([Post]) -> Void) {
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             completionBlock(self.posts)
         }
     }
@@ -57,6 +61,10 @@ final class DataManager: DataManagerProtocol {
     
     // MARK: - Search post
     
+    /// Search post by given id
+    ///
+    /// - Parameter id: identificator
+    /// - Returns: post with given id
     func searchPost(by id: String) -> Post? {
         let result = posts.filter{ post in post.id == id }
         
@@ -67,6 +75,10 @@ final class DataManager: DataManagerProtocol {
         return nil
     }
     
+    /// Async version of searching post by given id
+    ///
+    /// - Parameter id: identificator
+    ///   - completionBlock: for returning post with given id
     func asyncSearchPost(by id: String, completionBlock: @escaping (Post?) -> Void) {
         
         searchOperationQueue.addOperation { [weak self] in
@@ -85,6 +97,9 @@ final class DataManager: DataManagerProtocol {
 
     // MARK: - Add post
     
+    /// Add new post
+    ///
+    /// - Parameter post: new post
     func addPost(_ post: Post) {
         
         var newPosts: [Post] = [post]
@@ -92,6 +107,9 @@ final class DataManager: DataManagerProtocol {
         posts = newPosts
     }
     
+    /// Async version of adding new post at top
+    /// - Parameters:
+    ///   - post: new post
     func asyncAddPost(_ post: Post, completionBlock: @escaping (Bool) -> Void) {
         
         addOperationQueue.addOperation {
@@ -104,14 +122,30 @@ final class DataManager: DataManagerProtocol {
     
     // MARK: - Save post
     
+    /// Save updated post
+    ///
+    /// - Parameter post: post with changes
     func saveAndUpdatePost(_ post: Post) {
         
         let index = posts.firstIndex { (oldPost) -> Bool in
             oldPost.id == post.id
         }
-        posts.insert(post, at: index ?? posts.count)
+        
+        if index == -1 {
+            posts.insert(post, at: posts.count)
+        }
+        else {
+            posts.remove(at: index!)
+            posts.insert(post, at: index!)
+        }
+        
     }
     
+    /// Async version of saving of updated post
+    ///
+    /// - Parameters:
+    ///   - post: post with changes
+    ///   - completionBlock: for returing result of operations
     func asyncSaveAndUpdatePost(_ post: Post, completionBlock: @escaping (Bool) -> Void) {
         
         saveOperationQueue.addOperation {
